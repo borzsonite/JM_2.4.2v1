@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,6 +27,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan("jm.security.example")
 @PropertySource("classpath:db.properties")
 @EnableJpaRepositories(basePackages = "jm.security.example.repositories")
@@ -87,7 +89,7 @@ public class WebConfig implements WebMvcConfigurer {
         jpaVendorAdapter.setGenerateDdl(true);
         jpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.H2Dialect");
 
-        factory.setPackagesToScan(new String[] {"jm.security.example.mode"});
+        factory.setPackagesToScan(new String[] {"jm.security.example.model"});
         factory.setJpaProperties(additionalProperties());
         factory.setJpaVendorAdapter(jpaVendorAdapter);
 

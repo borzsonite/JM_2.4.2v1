@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,15 +31,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findUserByName(username);
+        User user = findUserByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthority(user.getRoles()) );
     }
 
-    public User findUserByName(String username) {
-        return userRepository.findUserByName(username);
+    public User findUserByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        return user;
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthority(Collection<Role> roles) {
